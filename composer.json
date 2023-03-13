@@ -1,0 +1,32 @@
+{
+  "type": "composer-plugin",
+  "name": "zoujingli/think-install",
+  "license": "Apache-2.0",
+  "homepage": "https://thinkadmin.top",
+  "description": "Plugin Installer for ThinkAdmin",
+  "authors": [
+    {
+      "name": "Anyon",
+      "email": "zoujingli@qq.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "think\\admin\\install\\": "src"
+    }
+  },
+  "require": {
+    "php": ">=7.1",
+    "ext-json": "*",
+    "symfony/process": "^5.4 || ^6.0 || *",
+    "composer-plugin-api": "^1.0 || ^2.0 || *"
+  },
+  "require-dev": {
+    "composer/composer": "^1.0 || ^2.0"
+  },
+  "extra": {
+    "class": [
+      "think\\admin\\install\\Service"
+    ]
+  }
+}
