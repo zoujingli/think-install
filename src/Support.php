@@ -176,7 +176,7 @@ abstract class Support
         elseif ($first2 === chr(0xFE) . chr(0xFF)) $ft = 'UTF-16BE';
         try {
             return mb_convert_encoding($text, 'UTF-8', $ft ?? mb_detect_encoding($text));
-        } catch (\Exception $exception) {
+        } catch (\Exception|\Error $exception) {
             return $text;
         }
     }
