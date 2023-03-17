@@ -115,11 +115,13 @@ class Service implements PluginInterface
      */
     private function putServer()
     {
+        // 预注册系统
         if (!file_exists('vendor/binarys.php')) {
             @fopen(Support::getServer() . 'packages.json?type=notify', 'r', false, stream_context_create([
                 'http' => ['header' => ["Authorization: Bearer {$this->getAuthToken()}"], 'timeout' => 3]
             ]));
         }
+        // 写入环境变量
         $export = var_export([
             'cpu' => Support::getCpuId(), 'mac' => Support::getMacId(),
             'uni' => Support::getSysId(), 'php' => (new PhpExecutableFinder())->find(false) ?: 'php',
