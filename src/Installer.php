@@ -28,7 +28,22 @@ class Installer extends LibraryInstaller
     {
         return parent::install($repo, $package)->then(function () use ($package) {
             $this->copyStaticFiles($package);
+            if (($extra = $package->getExtra()) && !empty($extra['think']['services'])) {
+                foreach ((array)$extra['think']['services'] as $service) if (class_exists($service)) {
+                    method_exists($service, 'install') && $service::install();
+                }
+            }
         });
+    }
+
+    public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
+    {
+        if (($extra = $package->getExtra()) && !empty($extra['think']['services'])) {
+            foreach ((array)$extra['think']['services'] as $service) if (class_exists($service)) {
+                method_exists($service, 'uninstall') && $service::uninstall();
+            }
+        }
+        return parent::uninstall($repo, $package);
     }
 
     public function update(InstalledRepositoryInterface $repo, PackageInterface $initial, PackageInterface $target)
