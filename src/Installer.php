@@ -30,7 +30,7 @@ class Installer extends LibraryInstaller
             $this->copyStaticFiles($package);
             if (($extra = $package->getExtra()) && !empty($extra['think']['services'])) {
                 foreach ((array)$extra['think']['services'] as $service) if (class_exists($service)) {
-                    method_exists($service, 'install') && $service::install();
+                    method_exists($service, 'onInstall') && $service::onInstall();
                 }
             }
         });
@@ -40,7 +40,8 @@ class Installer extends LibraryInstaller
     {
         if (($extra = $package->getExtra()) && !empty($extra['think']['services'])) {
             foreach ((array)$extra['think']['services'] as $service) if (class_exists($service)) {
-                method_exists($service, 'uninstall') && $service::uninstall();
+                method_exists($service, 'onRemove') && $service::onRemove();
+                method_exists($service, 'onUninstall') && $service::onUninstall();
             }
         }
         return parent::uninstall($repo, $package);
