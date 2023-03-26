@@ -28,8 +28,8 @@ class Installer extends LibraryInstaller
     {
         return parent::install($repo, $package)->then(function () use ($package) {
             $this->copyStaticFiles($package);
-            if (($extra = $package->getExtra()) && !empty($extra['think']['services'])) {
-                foreach ((array)$extra['think']['services'] as $service) if (class_exists($service)) {
+            if (($extra = $package->getExtra()) && !empty($extra['plugin']['package'])) {
+                foreach ((array)$extra['plugin']['package'] as $service) if (class_exists($service)) {
                     method_exists($service, 'onInstall') && $service::onInstall();
                 }
             }
@@ -38,8 +38,8 @@ class Installer extends LibraryInstaller
 
     public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
-        if (($extra = $package->getExtra()) && !empty($extra['think']['services'])) {
-            foreach ((array)$extra['think']['services'] as $service) if (class_exists($service)) {
+        if (($extra = $package->getExtra()) && !empty($extra['plugin']['package'])) {
+            foreach ((array)$extra['plugin']['package'] as $service) if (class_exists($service)) {
                 method_exists($service, 'onRemove') && $service::onRemove();
                 method_exists($service, 'onUninstall') && $service::onUninstall();
             }
