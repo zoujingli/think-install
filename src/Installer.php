@@ -28,9 +28,9 @@ class Installer extends LibraryInstaller
     {
         return parent::install($repo, $package)->then(function () use ($package) {
             $this->copyStaticFiles($package);
-            if (($extra = $package->getExtra()) && !empty($extra['plugin']['package'])) {
-                foreach ((array)$extra['plugin']['package'] as $service) if (class_exists($service)) {
-                    method_exists($service, 'onInstall') && $service::onInstall();
+            if (($extra = $package->getExtra()) && !empty($extra['plugin']['event'])) {
+                foreach ((array)$extra['plugin']['event'] as $event) if (class_exists($event)) {
+                    method_exists($event, 'onInstall') && $event::onInstall();
                 }
             }
         });
@@ -38,10 +38,9 @@ class Installer extends LibraryInstaller
 
     public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
-        if (($extra = $package->getExtra()) && !empty($extra['plugin']['package'])) {
-            foreach ((array)$extra['plugin']['package'] as $service) if (class_exists($service)) {
-                method_exists($service, 'onRemove') && $service::onRemove();
-                method_exists($service, 'onUninstall') && $service::onUninstall();
+        if (($extra = $package->getExtra()) && !empty($extra['plugin']['event'])) {
+            foreach ((array)$extra['plugin']['event'] as $event) if (class_exists($event)) {
+                method_exists($event, 'onRemove') && $event::onRemove();
             }
         }
         return parent::uninstall($repo, $package);
