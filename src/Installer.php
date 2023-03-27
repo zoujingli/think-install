@@ -83,12 +83,13 @@ class Installer extends LibraryInstaller
         if ($this->composer->getPackage()->getType() === 'project') {
             $extra = $package->getExtra();
             $installPath = $this->getInstallPath($package);
+            $this->io->write("\r  > Exec Plugin <info>{$package->getPrettyName()} </info> \033[K");
 
             // 初始化，若文件存在不进行操作
             if (!empty($extra['plugin']['init'])) {
                 foreach ((array)$extra['plugin']['init'] as $source => $target) {
                     if (!is_file($target) && is_file($sfile = $installPath . DIRECTORY_SEPARATOR . $source)) {
-                        $this->io->write("  > Init <info>{$source} </info>to <info>{$target} </info>");
+                        $this->io->write("\r  > Init Source <info>{$source} </info>to <info>{$target} </info>");
                         file_exists(dirname($target)) || mkdir(dirname($target), 0755, true);
                         $this->filesystem->copy($sfile, $target);
                     }
@@ -104,13 +105,14 @@ class Installer extends LibraryInstaller
 
                     // 如果目标目录或其上级目录下存在 ignore 文件则跳过复制
                     if (file_exists(dirname($target) . '/ignore') || file_exists(rtrim($target, '\\/') . "/ignore")) {
-                        $this->io->write("  > Ignore Copy <info>{$source} </info>to <info>{$target} </info>");
+                        $this->io->write("\r  > Skip Copy <info>{$source} </info>to <info>{$target} </info>");
                         continue;
                     }
 
                     // 绝对复制时需要先删除目标文件或目录
+                    $action = 'Copy';
                     if ($isforce && file_exists($target)) {
-                        $this->io->write("  > Delete Target <info>{$target} </info>");
+                        $action = 'Push';
                         if (is_file($target)) {
                             $this->filesystem->unlink($target);
                         } else {
@@ -120,8 +122,7 @@ class Installer extends LibraryInstaller
 
                     // 执行复制操作，将原文件或目录复制到目标位置
                     if (file_exists($sfile = $installPath . DIRECTORY_SEPARATOR . $source)) {
-                        $type = is_file($sfile) ? "File" : "Directory";
-                        $this->io->write("  > Copy {$type} <info>{$source} </info>to <info>{$target} </info>");
+                        $this->io->write("\r  > {$action} Source <info>{$source} </info>to <info>{$target} </info>");
                         file_exists(dirname($target)) || mkdir(dirname($target), 0755, true);
                         $this->filesystem->copy($sfile, $target);
                     }
@@ -137,10 +138,10 @@ class Installer extends LibraryInstaller
                     $showPath = $installPath;
                 }
                 try {
-                    $this->io->write("  > Clear Directory <info>{$showPath} </info>");
+                    $this->io->write("\r  > Clear Vendor <info>{$showPath} </info>");
                     $this->filesystem->removeDirectoryPhp($installPath);
                 } catch (\Exception|\RuntimeException $exception) {
-                    $this->io->error("  > {$exception->getMessage()}");
+                    $this->io->error("\r  > {$exception->getMessage()}");
                 }
             }
         }
