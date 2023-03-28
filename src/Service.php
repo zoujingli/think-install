@@ -69,9 +69,17 @@ class Service implements PluginInterface
             // 写入环境路径
             $this->putServer();
 
-            // 执行插件安装
+            // 检查安装锁定状态
+            if (is_file($lock = 'vendor/zoujingli/publish.lock')) {
+                if (intval(file_get_contents($lock)) > time() - 10) return;
+            }
+
+            // 增加自动安装锁定
+            file_put_contents($lock, time());
+
+            // 注册自动安装脚本
             $dispatcher = $composer->getEventDispatcher();
-            $dispatcher->addListener('post-autoload-dump', function () use ($dispatcher) {
+            $dispatcher->addListener('post-autoload-dump', function () use ($lock, $dispatcher) {
 
                 // 初始化服务配置
                 $services = file_exists($file = 'vendor/services.php') ? (array)include($file) : [];
@@ -80,9 +88,10 @@ class Service implements PluginInterface
                     @file_put_contents($file, '<?php' . PHP_EOL . 'return ' . var_export($services, true) . ';');
                 }
 
-                // 调用应用插件及子应用安装指令
+                // 执行应用模块安装指令
                 $dispatcher->addListener('PluginScript', '@php think xadmin:publish --migrate');
                 $dispatcher->dispatch('PluginScript');
+
             });
         }
     }
