@@ -69,17 +69,9 @@ class Service implements PluginInterface
             // 写入环境路径
             $this->putServer();
 
-            // 检查安装锁定状态
-            if (is_file($lock = 'vendor/zoujingli/publish.lock')) {
-                if (intval(file_get_contents($lock)) > time() - 10) return;
-            }
-
-            // 增加自动安装锁定
-            file_put_contents($lock, time());
-
             // 注册自动安装脚本
             $dispatcher = $composer->getEventDispatcher();
-            $dispatcher->addListener('post-autoload-dump', function () use ($lock, $dispatcher) {
+            $dispatcher->addListener('post-autoload-dump', function () use ($dispatcher) {
 
                 // 初始化服务配置
                 $services = file_exists($file = 'vendor/services.php') ? (array)include($file) : [];
