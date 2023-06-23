@@ -29,9 +29,12 @@ class Installer extends LibraryInstaller
         return parent::install($repo, $package)->then(function () use ($package) {
             $this->copyStaticFiles($package);
             if (($extra = $package->getExtra()) && !empty($extra['plugin']['event'])) {
-                is_file('vendor/autoload.php') && require_once('vendor/autoload.php');
-                foreach ((array)$extra['plugin']['event'] as $event) if (class_exists($event)) {
-                    method_exists($event, 'onInstall') && $event::onInstall();
+                $path = $this->getInstallPath($package);
+                foreach ((array)$extra['plugin']['event'] as $class => $file) {
+                    if (is_string($class) && is_string($file)) {
+                        class_exists($class) || is_file($file = "{$path}/{$file}") && include_once($file);
+                        class_exists($class) && method_exists($class, 'onInstall') && $class::onInstall();
+                    }
                 }
             }
         });
@@ -40,9 +43,12 @@ class Installer extends LibraryInstaller
     public function uninstall(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
         if (($extra = $package->getExtra()) && !empty($extra['plugin']['event'])) {
-            is_file('vendor/autoload.php') && require_once('vendor/autoload.php');
-            foreach ((array)$extra['plugin']['event'] as $event) if (class_exists($event)) {
-                method_exists($event, 'onRemove') && $event::onRemove();
+            $path = $this->getInstallPath($package);
+            foreach ((array)$extra['plugin']['event'] as $class => $file) {
+                if (is_string($class) && is_string($file)) {
+                    class_exists($class) || is_file($file = "{$path}/{$file}") && include_once($file);
+                    class_exists($class) && method_exists($class, 'onRemove') && $class::onRemove();
+                }
             }
         }
         return parent::uninstall($repo, $package);
