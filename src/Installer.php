@@ -54,7 +54,7 @@ class Installer extends LibraryInstaller
                     class_exists($class) || is_file($file = "{$path}/{$file}") && include_once($file);
                     if (class_exists($class) && method_exists($class, 'onRemove')) {
                         $this->io->write("\r  > Exec Install Event <info>{$class}::onRemove() </info> Done. \033[K");
-                        $class::onInstall();
+                        $class::onRemove();
                     } else {
                         $this->io->write("\r  > Exec Install Event <info>{$class}::onRemove() </info> Fail. \033[K");
                     }
