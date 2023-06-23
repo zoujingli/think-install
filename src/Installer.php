@@ -53,10 +53,10 @@ class Installer extends LibraryInstaller
                 if (is_string($class) && is_string($file)) {
                     class_exists($class) || is_file($file = "{$path}/{$file}") && include_once($file);
                     if (class_exists($class) && method_exists($class, 'onRemove')) {
-                        $this->io->write("\r  > Exec Install Event <info>{$class}::onRemove() </info> Done. \033[K");
+                        $this->io->write("\r  > Exec Remove Event <info>{$class}::onRemove() </info> Done. \033[K");
                         $class::onRemove();
                     } else {
-                        $this->io->write("\r  > Exec Install Event <info>{$class}::onRemove() </info> Fail. \033[K");
+                        $this->io->write("\r  > Exec Remove Event <info>{$class}::onRemove() </info> Fail. \033[K");
                     }
                 }
             }
