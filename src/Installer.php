@@ -33,7 +33,12 @@ class Installer extends LibraryInstaller
                 foreach ((array)$extra['plugin']['event'] as $class => $file) {
                     if (is_string($class) && is_string($file)) {
                         class_exists($class) || is_file($file = "{$path}/{$file}") && include_once($file);
-                        class_exists($class) && method_exists($class, 'onInstall') && $class::onInstall();
+                        if (class_exists($class) && method_exists($class, 'onInstall')) {
+                            $this->io->write("\r  > Exec Install Event <info>{$class}::onInstall() </info> Done. \033[K");
+                            $class::onInstall();
+                        } else {
+                            $this->io->write("\r  > Exec Install Event <info>{$class}::onInstall() </info> Fail. \033[K");
+                        }
                     }
                 }
             }
@@ -47,7 +52,12 @@ class Installer extends LibraryInstaller
             foreach ((array)$extra['plugin']['event'] as $class => $file) {
                 if (is_string($class) && is_string($file)) {
                     class_exists($class) || is_file($file = "{$path}/{$file}") && include_once($file);
-                    class_exists($class) && method_exists($class, 'onRemove') && $class::onRemove();
+                    if (class_exists($class) && method_exists($class, 'onRemove')) {
+                        $this->io->write("\r  > Exec Install Event <info>{$class}::onRemove() </info> Done. \033[K");
+                        $class::onInstall();
+                    } else {
+                        $this->io->write("\r  > Exec Install Event <info>{$class}::onRemove() </info> Fail. \033[K");
+                    }
                 }
             }
         }
