@@ -13,7 +13,7 @@
 
 ### 安装规则
 
-请阅读文档[《插件的安装与升级》](https://thinkadmin.top/plugin-install)
+请阅读文档[《插件的安装与升级》](https://thinkadmin.top/system/plugin-install.html)
 
 ### 插件安装
 
