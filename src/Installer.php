@@ -30,7 +30,7 @@ class Installer extends LibraryInstaller
             $this->copyStaticFiles($package);
             if (($extra = $package->getExtra()) && !empty($extra['plugin']['event'])) {
                 $path = $this->getInstallPath($package);
-                foreach ((array)$extra['plugin']['event'] as $class => $file) {
+                foreach ((array)$extra['plugin']['event'] as $file => $class) {
                     if (is_string($class) && is_string($file)) {
                         class_exists($class) || is_file($file = "{$path}/{$file}") && include_once($file);
                         if (class_exists($class) && method_exists($class, 'onInstall')) {
@@ -49,7 +49,7 @@ class Installer extends LibraryInstaller
     {
         if (($extra = $package->getExtra()) && !empty($extra['plugin']['event'])) {
             $path = $this->getInstallPath($package);
-            foreach ((array)$extra['plugin']['event'] as $class => $file) {
+            foreach ((array)$extra['plugin']['event'] as $file => $class) {
                 if (is_string($class) && is_string($file)) {
                     class_exists($class) || is_file($file = "{$path}/{$file}") && include_once($file);
                     if (class_exists($class) && method_exists($class, 'onRemove')) {
