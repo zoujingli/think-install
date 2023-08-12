@@ -5,9 +5,9 @@
 [![Total Downloads](https://poser.pugx.org/zoujingli/think-install/downloads)](https://packagist.org/packages/zoujingli/think-install)
 [![Monthly Downloads](http://img.shields.io/packagist/dm/zoujingli/think-install.svg)](https://packagist.org/packages/zoujingli/think-install)
 [![PHP Version](https://doc.thinkadmin.top/static/icon/php-7.1.svg)](https://thinkadmin.top)
-[![License](https://doc.thinkadmin.top/static/icon/license-apache2.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![License](https://thinkadmin.top/static/icon/license-apache2.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-**ThinkInstall** 是 [**ThinkAdmin**](https://thinkadmin.top) 的专属安装器，开源免费可商用！
+**ThinkInstall** 是 [**ThinkAdmin**](https://thinkadmin.top) 的专属安装器，遵循 **Apache2** 开源免费可商用！
 
 代码主仓库放在 **Gitee**，**Github** 仅为镜像仓库用于发布 **Composer** 包。
 
