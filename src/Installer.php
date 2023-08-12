@@ -149,15 +149,15 @@ class Installer extends LibraryInstaller
             if (!empty($extra['plugin']['clear'])) {
                 $rootPath = dirname($this->vendorDir);
                 if (stripos($installPath, $rootPath) === 0) {
-                    $showPath = substr($installPath, strlen($rootPath) + 1);
+                    try {
+                        $showPath = substr($installPath, strlen($rootPath) + 1);
+                        $this->io->write("\r  > Clear Vendor <info>{$showPath} </info>");
+                        $this->filesystem->removeDirectoryPhp($installPath);
+                    } catch (\Exception|\RuntimeException $exception) {
+                        $this->io->error("\r  > {$exception->getMessage()}");
+                    }
                 } else {
-                    $showPath = $installPath;
-                }
-                try {
-                    $this->io->write("\r  > Clear Vendor <info>{$showPath} </info>");
-                    $this->filesystem->removeDirectoryPhp($installPath);
-                } catch (\Exception|\RuntimeException $exception) {
-                    $this->io->error("\r  > {$exception->getMessage()}");
+                    $this->io->write("\r  > Skip Clear <info>{$installPath} </info>");
                 }
             }
         }
