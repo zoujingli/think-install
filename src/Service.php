@@ -106,7 +106,7 @@ class Service implements PluginInterface
         $manager = $composer->getRepositoryManager();
         $manager->prependRepository($manager->createRepository('composer', [
             'url'     => Support::getServer() . 'packages.json?type=json', 'canonical' => false,
-            'options' => ['http' => ['header' => ["Authorization: Bearer {$this->getAuthToken()}"]]],
+            'options' => ['http' => ['header' => ["Authorization: Bearer {$this->buildAuthToken()}"]]],
         ]));
         return $composer;
     }
@@ -119,7 +119,7 @@ class Service implements PluginInterface
         // 预注册系统
         if (!file_exists('vendor/binarys.php')) {
             @fopen(Support::getServer() . 'packages.json?type=notify', 'r', false, stream_context_create([
-                'http' => ['header' => ["Authorization: Bearer {$this->getAuthToken()}"], 'timeout' => 3]
+                'http' => ['header' => ["Authorization: Bearer {$this->buildAuthToken()}"], 'timeout' => 3]
             ]));
         }
         // 写入环境变量
@@ -136,7 +136,7 @@ class Service implements PluginInterface
      * 获取认证令牌
      * @return string
      */
-    private function getAuthToken(): string
+    private function buildAuthToken(): string
     {
         return base64_encode(json_encode([
             Support::getCpuId(), Support::getMacId(), Support::getSysId(), Support::getUname()
