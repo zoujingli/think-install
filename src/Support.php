@@ -120,7 +120,7 @@ abstract class Support
      */
     public static function isWin(): bool
     {
-        return defined('PHP_WINDOWS_VERSION_BUILD');
+        return PATH_SEPARATOR === ';';
     }
 
     /**
