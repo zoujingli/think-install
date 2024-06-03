@@ -25,4 +25,4 @@
 
 本项目包含的第三方源码和二进制文件的版权信息将另行标注，请在对应文件查看。
 
-版权所有 Copyright © 2014-2023 by ThinkAdmin (https://thinkadmin.top) All rights reserved。
+版权所有 Copyright © 2014-2024 by ThinkAdmin (https://thinkadmin.top) All rights reserved。
