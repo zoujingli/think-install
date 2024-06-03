@@ -103,11 +103,12 @@ class Service implements PluginInterface
      */
     private function addServer(Composer $composer): Composer
     {
-        $manager = $composer->getRepositoryManager();
-        $manager->prependRepository($manager->createRepository('composer', [
-            'url'     => Support::getServer() . 'packages.json?type=json', 'canonical' => false,
-            'options' => ['http' => ['header' => ["Authorization: Bearer {$this->buildAuthToken()}"]]],
-        ]));
+//      暂时不使用第三方库安装
+//      $manager = $composer->getRepositoryManager();
+//      $manager->prependRepository($manager->createRepository('composer', [
+//          'url'     => Support::getServer() . 'packages.json?type=json', 'canonical' => false,
+//          'options' => ['http' => ['header' => ["Authorization: Bearer {$this->buildAuthToken()}"]]],
+//      ]));
         return $composer;
     }
 
