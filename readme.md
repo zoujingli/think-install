@@ -4,7 +4,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/zoujingli/think-install/v/unstable)](https://packagist.org/packages/zoujingli/think-install)
 [![Total Downloads](https://poser.pugx.org/zoujingli/think-install/downloads)](https://packagist.org/packages/zoujingli/think-install)
 [![Monthly Downloads](http://img.shields.io/packagist/dm/zoujingli/think-install.svg)](https://packagist.org/packages/zoujingli/think-install)
-[![PHP Version](https://doc.thinkadmin.top/static/icon/php-7.1.svg)](https://thinkadmin.top)
+[![PHP Version](https://thinkadmin.top/static/icon/php-7.1.svg)](https://thinkadmin.top)
 [![License](https://thinkadmin.top/static/icon/license-apache2.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 **ThinkInstall** 是 [**ThinkAdmin**](https://thinkadmin.top) 的专属安装器，遵循 **Apache2** 开源免费可商用！
