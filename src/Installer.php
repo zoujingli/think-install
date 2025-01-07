@@ -117,12 +117,6 @@ class Installer extends LibraryInstaller
             }
         }
 
-        // 非 vendor 目录，不执行 copy 及 clear 操作，直接使用插件模式
-        if (stripos(realpath($installPath), $this->vendorDir) !== 0) {
-            $this->io->write(sprintf("\r  > Skip Copy and Clear <info>%s </info>", realpath($installPath)));
-            return;
-        }
-
         // 复制替换，无论是否存在都进行替换
         if (!empty($extra['plugin']['copy'])) {
             foreach ((array)$extra['plugin']['copy'] as $source => $target) {
@@ -152,6 +146,12 @@ class Installer extends LibraryInstaller
                 file_exists(dirname($target)) || mkdir(dirname($target), 0755, true);
                 $this->filesystem->copy($sfile, $target);
             }
+        }
+
+        // 非 vendor 目录，不执行 clear 操作
+        if (stripos(realpath($installPath), $this->vendorDir) !== 0) {
+            $this->io->write(sprintf("\r  > Skip Clear <info>%s </info>", realpath($installPath)));
+            return;
         }
 
         // 清理当前库的所有文件及信息
