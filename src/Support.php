@@ -129,7 +129,7 @@ abstract class Support
      * @param ?callable $callabel
      * @return string
      */
-    public static function exec(string $command, callable $callabel = null): string
+    public static function exec(string $command, ?callable $callabel = null): string
     {
         if (method_exists(Process::class, 'fromShellCommandline')) {
             $process = Process::fromShellCommandline($command);
